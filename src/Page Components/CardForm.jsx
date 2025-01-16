@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const CardForm = () => {
 
   const [ctitle, setCtitle] = useState("");
   const [ctext, setCtext] = useState("");
+  const [image, setCimage] = useState(null)
   // const [password, setPassword] = useState("");
   // const [mobile, setMobile] = useState("");
   // const [address, setAddress] = useState("");
@@ -26,29 +28,30 @@ const CardForm = () => {
   function handleSubmit(e) {
     e.preventDefault()
 
-    // const newData = new FormData()
-    // newData.append('fname', fname)
-    // newData.append('email', email)
-    // newData.append('password', password)
+    const userData = new FormData()
+    userData.append('ctitle', ctitle)
+    userData.append('ctext', ctext)
+    userData.append('image', image)
     // newData.append('mobile', mobile)
     // newData.append('address', address)
 
-    const userData = {
-      ctitle,
-      ctext
-      // password,
-      // mobile,
-      // address,
-      // city,
-      // gender,
-      // subject
-    }
+    // const userData = {
+    //   ctitle,
+    //   ctext
+    //   // password,
+    //   // mobile,
+    //   // address,
+    //   // city,
+    //   // gender,
+    //   // subject
+    // }
 
     axios.post('http://localhost:8000/postdata', userData).then(res => {
       console.log("hi", res.data);
       alert('Data Added Successfully!!');
       setCtitle("");
       setCtext("");
+      setCimage(null);
       // setPassword("");
       // setMobile("");
       // setAddress("");
@@ -73,23 +76,35 @@ const CardForm = () => {
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Card Title</Form.Label>
-                <Form.Control type="text" placeholder="Enter card title" 
-                value={ctitle} required
-                onChange={(e) => setCtitle(e.target.value)}
+                <Form.Control type="text" placeholder="Enter card title"
+                  value={ctitle} required
+                  onChange={(e) => setCtitle(e.target.value)}
                 />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Card Text</Form.Label>
-                <Form.Control type="text" placeholder="Description" 
-                value={ctext} required
-                onChange={(e) => setCtext(e.target.value)}
+                <Form.Control type="text" placeholder="Description"
+                  value={ctext} required
+                  onChange={(e) => setCtext(e.target.value)}
                 />
               </Form.Group>
 
-              <Button className='w-100' variant="primary" type="submit">
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Image</Form.Label>
+                <Form.Control type="file" name="file" 
+                onChange={(e) => setCimage(e.target.files[0])}  />
+              </Form.Group>
+
+              {/* <Link to="/carddetails" > */}
+              <Button className='w-100' variant="primary" type="submit"
+            //   onClick={() => {
+            //     navigate(`/carddetails`);
+            // }}
+            >
                 Submit
               </Button>
+              {/* </Link>  */}
 
               {/* <Row>
                 <Col md={4}>

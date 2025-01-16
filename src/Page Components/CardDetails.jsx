@@ -58,6 +58,8 @@ const CardDetails = () => {
                                     <th>Sr. No</th>
                                     <th>Card Title</th>
                                     <th>Card Description</th>
+                                    <th>Images</th> 
+
                                     {/* <th>Email</th>
                                     <th>Mobile</th>
                                     <th>Address</th>
@@ -75,6 +77,7 @@ const CardDetails = () => {
                                             <td>{id + 1}</td>
                                             <td>{Course.ctitle}</td>
                                             <td>{Course.ctext}</td>
+                                            <td><img src={`http://localhost:8000/images/${Course.image}`} alt='' height={50} width={50}/></td>
                                             {/* <td>{Register.email}</td>
                                             <td>{Register.mobile}</td>
                                             <td>{Register.address}</td>
