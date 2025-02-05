@@ -4,10 +4,12 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const CardUpdate = () => {
+
   const Navigate = useNavigate();
-  const {_id} = useParams();          // Destructure _id from the URL params
+  const { _id } = useParams();
   const [ctitle, setCtitle] = useState("");
   const [ctext, setCtext] = useState("");
+  const [image, setCimage] = useState(null);
 
   useEffect(() => {
     axios.get(`http://localhost:8000/getuserdata/${_id}`)
@@ -15,6 +17,7 @@ const CardUpdate = () => {
         const data = res.data.userData;
         setCtitle(data.ctitle || "");
         setCtext(data.ctext || "");
+        setCimage(data.image || "");
         // setName(data.fname || "");
         // setEmail(data.email || "");
         // setPassword(data.password || "");
@@ -28,15 +31,22 @@ const CardUpdate = () => {
       }).catch(err => {
         console.log(err);
       });
-  },[]);
-  
+  }, [_id]);
+
   function handleSubmit(e) {
     e.preventDefault();
 
-    const userData = {
-      ctitle,
-      ctext
-    };
+    // const userData = {
+
+    //   ctitle,
+    //   ctext
+
+    // };
+
+    const userData = new FormData()
+    userData.append('ctitle', ctitle)
+    userData.append('ctext', ctext)
+    userData.append('image', image)
 
     axios.put(`http://localhost:8000/putdata/${_id}`, userData)
       .then(res => {
@@ -44,6 +54,7 @@ const CardUpdate = () => {
         alert('Data Updated Successfully!!');
         setCtitle("");
         setCtext("");
+        setCimage(null);
       })
       .catch(err => {
         console.log(err);
@@ -63,10 +74,10 @@ const CardUpdate = () => {
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Card Title</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="Enter card title" 
-                  value={ctitle} 
+                <Form.Control
+                  type="text"
+                  placeholder="Enter card title"
+                  value={ctitle}
                   required
                   onChange={(e) => setCtitle(e.target.value)}
                 />
@@ -74,13 +85,19 @@ const CardUpdate = () => {
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Card Text</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="Description" 
-                  value={ctext} 
+                <Form.Control
+                  type="text"
+                  placeholder="Description"
+                  value={ctext}
                   required
                   onChange={(e) => setCtext(e.target.value)}
                 />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Image</Form.Label>
+                <Form.Control type="file" name="file"
+                  onChange={(e) => setCimage(e.target.files[0])} />
               </Form.Group>
 
               <Button className='w-100' variant="primary" type="submit">

@@ -7,7 +7,7 @@ const CardForm = () => {
 
   const [ctitle, setCtitle] = useState("");
   const [ctext, setCtext] = useState("");
-  const [image, setCimage] = useState(null)
+  const [image, setCimage] = useState(null);
   // const [password, setPassword] = useState("");
   // const [mobile, setMobile] = useState("");
   // const [address, setAddress] = useState("");
